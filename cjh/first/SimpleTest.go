@@ -11,6 +11,7 @@ import (
 
 const PI = 3.14
 
+//别名
 type INT int64
 
 type Student struct {
@@ -32,5 +33,8 @@ func main() {
 
 	fmt.Println(format)
 	var tmpInt INT = 10
+	//显式转换
+	i := int(tmpInt)
 	fmt.Println(tmpInt)
+	fmt.Println(i)
 }
