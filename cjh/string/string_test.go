@@ -58,3 +58,35 @@ func TestTwo(t *testing.T) {
 	//对于非ASCII采用Rune
 	println(strings.IndexRune("中华人民共和国", 3))
 }
+
+func TestThree(t *testing.T) {
+	// strings.Replace("str", "old", "new", n),将str中前n个old字符串替换为new,n=-1时替换所有
+	println(strings.Replace("abcdaefg", "a", "b", -1)) //bbcdbefg
+
+	// Count("str", "s")计算str字符串中s出现的非重叠次数
+	println(strings.Count("ggggg", "gg")) //2
+
+	// strings.Repeat("str", n) 返回一个字符串，由str重复n次
+	println(strings.Repeat("str", 3)) //strstrstr
+	//大小写转换，将字符串中所有Unicode字符全部转换为对应的大小写
+	println(strings.ToUpper("aBc")) // ABC
+	println(strings.ToLower("A曹b")) // a曹b
+
+	//TrimSpace(s)剔除s开头和结尾的空白符号,Trim(str,s)替换掉str开头和结尾的s,TrimLeft/TrimRight提出开头或者结尾的字符串
+	println(strings.TrimSpace("\t\n abc \t\\"))       //abc 	\
+	println(strings.Trim("\tnb\tnnjs\tn", "\tn"))     //b	nnjs
+	println(strings.TrimLeft("\tnb\tnnjs\tn", "\tn")) //b	nnjs	n
+
+	// strings.Fields(s)将s以动态的空白字符串分割为字符串slice,如果s全是空白符，则返回长度为零的slice
+	// strings.Split(s, sep)自定义分隔符，同样返回slice
+	fmt.Printf("%v\n", strings.Fields("\na b\t\nc")) //[a b c]
+
+	// strings.join(sl []string, sep string),将s1切片中的所有元素用分隔符sep拼接为一个长字符串
+	println(strings.Join(strings.Fields("\na b\t\nc"), "|")) //a|b|c
+}
+
+func TestFour(t *testing.T) {
+	// 读取字符串中的内容
+	reader := strings.NewReader("abc")
+	println(reader.Size())
+}
