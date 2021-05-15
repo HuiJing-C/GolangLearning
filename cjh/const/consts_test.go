@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
 const PI = 3.14159
 const str string = "zhangsan"
@@ -25,29 +28,29 @@ const (
 	Thursday, Friday, Saturday = 4, 5, 6
 )
 
-//常量还可以做枚举
+// 常量还可以做枚举
 const (
-	Male    = iota //0
-	Female         //1
-	Unknown        //2
+	Male    = iota // 0
+	Female         // 1
+	Unknown        // 2
 )
 
 // 每遇到一个新的常量块或单个常量声明时， iota 都会重置为 0（ 简单地讲，每遇到一次 const 关键字，iota 就重置为 0 ）
 const (
-	zero = iota //0
-	one         //1
-	two         //2
+	zero = iota // 0
+	one         // 1
+	two         // 2
 )
 
 const d = iota + 50
 
-func main() {
-	fmt.Println(PI, str, num)
-	fmt.Println(f1, bill, hardEight)
-	fmt.Println(a, b, c, d)
-	fmt.Println(Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
-	fmt.Println(Male, Female, Unknown)
-	fmt.Println(zero, one, two)
+func TestOne(t *testing.T) {
+	fmt.Println(PI, str, num)                                           // 3.14159 zhangsan 2
+	fmt.Println(f1, bill, hardEight)                                    // 2.892865614820729 1e+09 8
+	fmt.Println(a, b, c, d)                                             // 1 2 3 50
+	fmt.Println(Monday, Tuesday, Wednesday, Thursday, Friday, Saturday) // 1 2 3 4 5 6
+	fmt.Println(Male, Female, Unknown)                                  // 0 1 2
+	fmt.Println(zero, one, two)                                         // 0 1 2
 }
 
 func getNum() int {
