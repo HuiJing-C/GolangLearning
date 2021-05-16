@@ -10,7 +10,7 @@ import (
 
 // go中的switch语句接受任何形式的表达式
 
-func TestThree(t *testing.T) {
+func TestSwitchOne(t *testing.T) {
 	// switch var1 {
 	// case val1:
 	// 	...
@@ -44,7 +44,7 @@ func TestThree(t *testing.T) {
 	// default分支可以出现在任何顺序中，但是最好放在最后，因为他的作用类似于if-else中的else,表示不符合任何已给条件
 }
 
-func TestFour(t *testing.T) {
+func TestSwitchTwo(t *testing.T) {
 	// 第二种用法是不提供任何判断值，实际默认为true，然后在每个case中测试不同的条件、
 	// 当任一分支测试结果为true时，该分支代码就会被执行
 	// switch {
@@ -72,7 +72,7 @@ func TestFour(t *testing.T) {
 	}
 }
 
-func TestFive(t *testing.T) {
+func TestSwitchThree(t *testing.T) {
 	// switch第三种形式是带一个初始化的表达式，可以非常优雅的进行条件判断，并且可以进行多值赋值
 	// switch initialization; {//注意这个分号
 	// case val1:

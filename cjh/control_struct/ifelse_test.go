@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestOne(t *testing.T) {
+func TestIfElseOne(t *testing.T) {
 	// 通用模式
 	condition := false
 	condition2 := true
@@ -29,7 +29,7 @@ func TestOne(t *testing.T) {
 	// return 1
 }
 
-func TestTwo(t *testing.T) {
+func TestIfElseTwo(t *testing.T) {
 	// 一些有用的例子
 	// 1:判断字符串为空
 	// if str == "" {...}
