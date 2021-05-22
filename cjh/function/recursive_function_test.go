@@ -3,15 +3,19 @@ package function
 import (
 	"fmt"
 	"testing"
+	"time"
 )
 
 // 递归函数：函数内部调用自身
 // 不同函数可以相互调用形成闭环
 func TestRecursiveOne(t *testing.T) {
-	for i := 0; i < 10; i++ {
+	now := time.Now()
+	for i := 0; i < 40; i++ {
 		fmt.Printf("fibonacci(%d) is %d\n", i, fibonacci(i))
 	}
-
+	end := time.Now()
+	duration := end.Sub(now)
+	fmt.Printf("Progress running %s\n", duration) // Progress running 1.138394463s
 	fmt.Printf("%d id odd: %t\n", 18, odd(18))
 	fmt.Printf("%d id odd: %t\n", 17, odd(17))
 }
