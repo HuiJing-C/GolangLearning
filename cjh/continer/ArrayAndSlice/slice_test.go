@@ -50,7 +50,7 @@ func TestSliceOne(t *testing.T) {
 	fmt.Printf("%v\n", s8) // [1 2 3 4 5]
 }
 
-func TestAliceTwo(t *testing.T) {
+func TestSliceTwo(t *testing.T) {
 	// 切片在内存中实际是一个有3个域的结构体：指向相关数组的指针，切片长度以及切片容量
 	// s是一个slice,后移一位操作：s = s[1:]，切片只能后移，前移s[-1:]会导致编译报错，切片不能重新分片以获取数组的前一个元素
 	// 注意：千万不要用指针指向切片，切片本身就是一个引用类型了，切片本身就是一个指针
@@ -65,3 +65,16 @@ func Sum(s []int) (i int) {
 	}
 	return
 }
+
+func TestSliceThree(t *testing.T) {
+	// 当没有相关数组是我们可以使用make([]type, len)来构建一个切片，并构建相关数组。这里的len既是数组的长度也是slice的初始长度
+	var ints []int = make([]int, 5)                          // or ints := make([]int, 5) 此时cap(ints) == len(ints) == 5
+	fmt.Printf("%t %d\n", len(ints) == cap(ints), len(ints)) // true 5
+	// 如果不想切片占用整个数组，可以使用make([]type, len, cap)。其中cap是可选参数
+	ints2 := make([]int, 5, 10)                   // 此方法与new([100]int)[0:50]可以生成相同的切片
+	fmt.Printf("%d %d\n", len(ints2), cap(ints2)) // 5 10
+}
+
+// new()和make()的区别，二者都在堆上分配内存，但是行为不同，适用于不同的类型
+// new(T) 为每个新的类型T分配一片内存，初始化为 0 并且返回类型为*T的内存地址：这种方法 返回一个指向类型为 T，值为 0 的地址的指针，它适用于值类型如数组和结构体,它相当于 &T{}
+// make(T) 返回一个类型为 T 的初始值，它只适用于3种内建的引用类型：切片、map 和 channel
