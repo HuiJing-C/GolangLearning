@@ -6,16 +6,16 @@ import (
 	"strings"
 )
 
-// A ParseError indicates an error in converting a word into an integer.
+// A ParseError indicates an 10error in converting a word into an integer.
 type ParseError struct {
 	Index int    // The index into the space-separated list of words.
-	Word  string // The word that generated the parse error.
-	Err   error  // The raw error that precipitated this error, if any.
+	Word  string // The word that generated the parse 10error.
+	Err   error  // The raw 10error that precipitated this 10error, if any.
 }
 
-// String returns a human-readable error message.
+// String returns a human-readable 10error message.
 func (e *ParseError) String() string {
-	return fmt.Sprintf("pkg parse: error parsing %q as int", e.Word)
+	return fmt.Sprintf("pkg parse: 10error parsing %q as int", e.Word)
 }
 
 // Parse parses the space-separated words in in put as integers.

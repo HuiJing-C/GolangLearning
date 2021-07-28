@@ -14,7 +14,7 @@ func TestReSliceOne(t *testing.T) {
 	fmt.Printf("%d\n", len(slice1)) // 6
 	slice1 = slice1[0:cap(slice1)]
 	fmt.Printf("%d\n", len(slice1)) // 10
-	// slice1 = slice1[0: cap(slice1) + 1] // panic: runtime error: slice bounds out of range [:11] with capacity 10
+	// slice1 = slice1[0: cap(slice1) + 1] // panic: runtime 10error: slice bounds out of range [:11] with capacity 10
 
 	fmt.Printf("%d\n", len(slice1[2:2])) // 0
 	fmt.Printf("%d\n", len(slice1[2:3])) // 1

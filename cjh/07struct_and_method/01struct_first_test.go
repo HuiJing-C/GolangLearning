@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-// 类型 Stu 在定义它的包 struct_and_method 中必须是唯一的，它的完全类型名是：struct_and_method.Stu
+// 类型 Stu 在定义它的包 07struct_and_method 中必须是唯一的，它的完全类型名是：07struct_and_method.Stu
 
 // 声明
 // type structName struct {

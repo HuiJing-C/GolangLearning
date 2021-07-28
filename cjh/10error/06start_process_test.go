@@ -52,8 +52,8 @@ func TestProcessTwo(t *testing.T) {
 	// 2) exec.Run //
 	/***************/
 	// Linux:  OK, but not for ls ?
-	// cmd := exec.Command("ls", "-l")  // no error, but doesn't show anything ?
-	// cmd := exec.Command("ls")        // no error, but doesn't show anything ?
+	// cmd := exec.Command("ls", "-l")  // no 10error, but doesn't show anything ?
+	// cmd := exec.Command("ls")        // no 10error, but doesn't show anything ?
 	cmd := exec.Command("gedit") // this opens a gedit-window
 	err := cmd.Run()
 	if err != nil {

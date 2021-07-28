@@ -2,7 +2,7 @@ package error
 
 import (
 	"fmt"
-	"github.com/HuiJing-C/GolangLearning/cjh/error/parse"
+	"github.com/HuiJing-C/GolangLearning/cjh/10error/parse"
 	"testing"
 )
 

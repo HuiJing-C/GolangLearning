@@ -44,5 +44,5 @@ func TestTwo(t *testing.T) {
 
 	// 对于一个空指针的反向引用是不合法的，会导致程序崩溃
 	var ptr3 *int = nil
-	*ptr3 = 0 // runtime error: invalid memory address or nil pointer dereference [recovered]
+	*ptr3 = 0 // runtime 10error: invalid memory address or nil pointer dereference [recovered]
 }

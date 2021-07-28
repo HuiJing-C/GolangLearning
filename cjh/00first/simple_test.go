@@ -3,7 +3,7 @@ package first
 /*
 author:cjh
 */
-// my first golang project
+// my 00first golang project
 import (
 	"fmt"
 	"os"

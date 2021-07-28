@@ -9,7 +9,7 @@ import (
 
 func TestClosePkg(t *testing.T) {
 	// 当我们不想给函数起名的识货，就可以使用匿名函数(闭包：函数式编程术语)
-	f := func(x, y int) int { return x + y } // 这样的函数不能独立存在，不然会报：non-declaration statement outside function body
+	f := func(x, y int) int { return x + y } // 这样的函数不能独立存在，不然会报：non-declaration statement outside 03function body
 	i := f(1, 2)
 	fmt.Printf("%d\n", i) // 3
 
@@ -32,7 +32,7 @@ func TestClosePkg(t *testing.T) {
 func TestClosePkg2(t *testing.T) {
 	// 关键字 defer 经常配合匿名函数使用，它可以用于改变函数的命名返回值。
 	fmt.Println(f()) // 2
-	// 这可用于在返回语句之后修改返回的 error 时使用
+	// 这可用于在返回语句之后修改返回的 10error 时使用
 
 	// 匿名函数还可以配合 go 关键字来作为 goroutine 使用
 }
@@ -81,7 +81,7 @@ func TestClosePkg3(t *testing.T) {
 			s += j
 		}
 		g = s
-	}(100) // Passes argument 1000 to the function literal.
+	}(100) // Passes argument 1000 to the 03function literal.
 	time.Sleep(time.Second)
 	fmt.Printf("%d\n", g) // 5050
 

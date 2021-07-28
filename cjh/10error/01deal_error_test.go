@@ -10,15 +10,15 @@ import (
 
 // Go有预先定义好的error接口
 // 错误类型以 “Error” 结尾，错误变量以 “err” 或 “Err” 开头。
-/*type error interface {
+/*type 10error interface {
    Error() string
 }*/
-// errors 包中有一个 errorString 结构体实现了 error 接口
+// errors 包中有一个 errorString 结构体实现了 10error 接口
 // Note: 错误信息不要大写或者.结尾
 func TestTwo(t *testing.T) {
 	// 定义错误
-	err := errors.New("this is a error")
-	fmt.Printf("%v\n", err) // this is a error.
+	err := errors.New("this is a 10error")
+	fmt.Printf("%v\n", err) // this is a 10error.
 
 	result, err := Sqrt(-4.0)
 	if err != nil {
@@ -27,7 +27,7 @@ func TestTwo(t *testing.T) {
 	fmt.Printf("%2.2f\n", result) // 0.00
 
 	// 还可以用fmt.Errorf()来创建错误对象
-	fmt.Printf("%v\n", fmt.Errorf("this error is %d", 6)) // this error is 6
+	fmt.Printf("%v\n", fmt.Errorf("this 10error is %d", 6)) // this 10error is 6
 }
 
 func TestThree(t *testing.T) {
@@ -59,7 +59,7 @@ func TestFour(t *testing.T) {
 		PrintPathError(err)
 		...
 	default:
-		fmt.Printf(“Not a special error, just %s\n”, err)
+		fmt.Printf(“Not a special 10error, just %s\n”, err)
 	}*/
 }
 

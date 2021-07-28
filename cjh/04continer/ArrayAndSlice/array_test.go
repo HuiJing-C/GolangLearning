@@ -16,7 +16,7 @@ func TestArrayOne(t *testing.T) {
 	// 数组在初始化时会给每个元素赋零值
 	var ints [5]int
 	fmt.Printf("%v\n", ints) // [0 0 0 0 0]
-	// 索引错误：runtime error: index out of range
+	// 索引错误：runtime 10error: index out of range
 	for index, _ := range ints {
 		ints[index] = index * index
 	}

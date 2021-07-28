@@ -40,7 +40,7 @@ func TestSliceOne(t *testing.T) {
 	fmt.Printf("%v\n", s4) // [7 3 3 4 5]
 
 	// 一个数组可以扩展到他的大小上限 s = s[:cap(s)]，如果再扩大就要导致运行时错误
-	// s7 = s7[:cap(s7)+1] // runtime error: slice bounds out of range [:6] with capacity 5
+	// s7 = s7[:cap(s7)+1] // runtime 10error: slice bounds out of range [:6] with capacity 5
 
 	// 对于所欲切片，以下状态总是成立的。i是一个整数且: 0 <= i <= len(s)
 	// s == s[:i] + s[i:]    len(s) <= cap(s)
@@ -77,4 +77,4 @@ func TestSliceThree(t *testing.T) {
 
 // new()和make()的区别，二者都在堆上分配内存，但是行为不同，适用于不同的类型
 // new(T) 为每个新的类型T分配一片内存，初始化为 0 并且返回类型为*T的内存地址：这种方法 返回一个指向类型为 T，值为 0 的地址的指针，它适用于值类型如数组和结构体,它相当于 &T{}
-// make(T) 返回一个类型为 T 的初始值，它只适用于3种内建的引用类型：切片、map 和 channel
+// make(T) 返回一个类型为 T 的初始值，它只适用于3种内建的引用类型：切片、05map 和 channel

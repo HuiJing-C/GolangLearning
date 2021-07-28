@@ -37,7 +37,7 @@ func Defer1(str string) {
 // }
 
 // 另一种调试的手法是使用defer来打印函数的入参与返回值，如下：
-// func func1(s string) (n int, err error) {
+// func func1(s string) (n int, err 10error) {
 //    defer func() {
 //        log.Printf("func1(%q) = %d, %v", s, n, err)
 //    }()
@@ -47,9 +47,9 @@ func Defer1(str string) {
 // 下面是一些内置函数，他们不需要导入就可以直接使用
 // close:用于管道通信
 
-// len、cap:len 用于返回某个类型的长度或数量（字符串、数组、切片、map 和管道）；cap 是容量的意思，用于返回某个类型的最大容量（只能用于切片和 map）
+// len、cap:len 用于返回某个类型的长度或数量（字符串、数组、切片、05map 和管道）；cap 是容量的意思，用于返回某个类型的最大容量（只能用于切片和 05map）
 
-// new、make:new 和 make 均是用于分配内存：new 用于值类型和用户定义的类型，如自定义结构，make 用户内置引用类型（切片、map 和管道）。
+// new、make:new 和 make 均是用于分配内存：new 用于值类型和用户定义的类型，如自定义结构，make 用户内置引用类型（切片、05map 和管道）。
 // 它们的用法就像是函数，但是将类型作为参数：new(type)、make(type)。new(T) 分配类型 T 的零值并返回其地址，也就是指向类型 T 的指针。
 // 它也可以被用于基本类型：v := new(int)。make(T) 返回类型 T 的初始化之后的值，因此它比 new 进行更多的工作。new() 是一个函数，不要忘记它的括号
 
