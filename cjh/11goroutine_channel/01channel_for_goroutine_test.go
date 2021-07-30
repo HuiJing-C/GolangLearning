@@ -3,6 +3,7 @@ package goroutine_channel
 import (
 	"fmt"
 	"math/rand"
+	"strconv"
 	"testing"
 	"time"
 )
@@ -216,4 +217,201 @@ func doSum(s []int) (sum int) {
 	}
 	fmt.Printf("%v\n", s)
 	return
+}
+
+// producer and consumer
+func TestPC(t *testing.T) {
+	numChan := make(chan int)
+	done := make(chan bool)
+	go numGen(0, 10, numChan)
+	go numEchoRange(numChan, done)
+	<-done
+}
+
+// integer producer:
+func numGen(start, count int, out chan<- int) {
+	for i := 0; i < count; i++ {
+		out <- start
+		start = start + count
+	}
+	close(out)
+}
+
+// integer consumer:
+func numEchoRange(in <-chan int, done chan<- bool) {
+	for num := range in {
+		fmt.Printf("%d\n", num)
+	}
+	done <- true
+}
+
+// channel range
+func TestChannelRange(t *testing.T) {
+	/*从指定通道中读取数据直到通道关闭，才继续执行下边的代码。很明显，另外一个协程必须写入 ch（不然代码就阻塞在 for 循环了），而且必须在写入完成后才关闭。*/
+	ch := make(chan int, 3)
+	go func() {
+		ch <- 1
+		ch <- 2
+		ch <- 3
+		close(ch)
+	}()
+	for i := range ch {
+		fmt.Printf("%d\n", i)
+	}
+}
+
+// 习惯用法:通道迭代模式
+// 通常，需要从包含了地址索引字段 items 的容器给通道填入元素。为容器的类型定义一个方法 Iter()，返回一个只读的通道
+type container struct {
+	Items []int
+}
+
+func (c *container) Len() int {
+	return len(c.Items)
+}
+
+func (c *container) Iter() <-chan int {
+	ch := make(chan int)
+	go func() {
+		for i := 0; i < c.Len(); i++ {
+			ch <- c.Items[i]
+		}
+		close(ch) // 写完要关，不然读的时候会死锁
+	}()
+	return ch
+}
+
+// 在协程里，一个 for 循环迭代容器 c 中的元素（对于树或图的算法，这种简单的 for 循环可以替换为深度优先搜索）。
+// 调用这个方法的代码可以这样迭代容器：
+func TestItems(t *testing.T) {
+	c := &container{Items: []int{1, 2, 3}}
+	for i := range c.Iter() {
+		fmt.Printf("%d\n", i)
+	}
+}
+
+// 习惯用法：生产者消费者
+// 假设你有 Produce() 函数来产生 Consume 函数需要的值。它们都可以运行在独立的协程中，生产者在通道中放入给消费者读取的值。整个处理过程可以替换为无限循环
+/*
+for {
+    Consume(Produce())
+}
+*/
+
+// 通道的方向:
+// 通道类型可以用注解来表示它只发送或者只接收：
+// var send_only chan<- int        // channel can only send data 只能向通道发数据（只写）
+// var recv_only <-chan int        // channel can onley receive data 只能从通道读取数据 （只读）
+// 只接收的通道（只读）（<-chan T）无法关闭，因为关闭通道是发送者用来表示不再给通道发送值了，所以对只接收通道是没有意义的。
+// 通道创建的时候都是双向的，但也可以分配有方向的通道变量，就像以下代码：
+func TestDirect(t *testing.T) {
+	var c = make(chan int) // bidirectional
+	go source(c)
+	go sink(c)
+}
+
+func source(ch chan<- int) {
+	for {
+		ch <- 1
+	}
+}
+
+func sink(ch <-chan int) {
+	for {
+		<-ch
+	}
+}
+
+// 习惯用法：管道和选择器
+// 更具体的例子还有协程处理它从通道接收的数据并发送给输出通道：
+func TestChannelSelect(t *testing.T) {
+	sendChan := make(chan int)
+	receiveChan := make(chan string)
+	go processChannel(sendChan, receiveChan)
+}
+func processChannel(in <-chan int, out chan<- string) {
+	for inValue := range in {
+		result := strconv.FormatInt(int64(inValue), 0)
+		out <- result
+	}
+}
+
+// 通过使用方向注解来限制协程对通道的操作。
+// 这里有一个来自 Go 指导的很赞的例子，打印了输出的素数，使用选择器（‘筛’）作为它的算法。每个 prime 都有一个选择器
+// Send the sequence 2, 3, 4, ... to channel 'ch'.
+func generate(ch chan int) {
+	for i := 2; ; i++ { // Error:这里设置i < 100就会报fatal error: all goroutines are asleep - deadlock!原因暂时不知道，后续补充
+		ch <- i // Send 'i' to channel 'ch'.
+	}
+}
+
+// Copy the values from channel 'in' to channel 'out',
+// removing those divisible by 'prime'.
+// filter(in, out chan int, prime int) 拷贝整数到输出通道，丢弃掉可以被 prime 整除的数字。然后每个 prime 又开启了一个新的协程，生成器和选择器并发请求
+func filter(in, out chan int, prime int) {
+	for {
+		i := <-in // Receive value of new variable 'i' from 'in'.
+		if i%prime != 0 {
+			out <- i // Send 'i' to channel 'out'.
+		}
+	}
+}
+
+func TestSuShu(t *testing.T) {
+	ch := make(chan int) // Create a new channel.
+	go generate(ch)      // Start generate() as a goroutine.
+	for {
+		prime := <-ch
+		fmt.Print(prime, " ")
+		ch1 := make(chan int)
+		go filter(ch, ch1, prime)
+		ch = ch1
+	}
+}
+
+// 下面这个版本引入了上边的习惯用法：函数 sieve、generate 和 filter 都是工厂；它们创建通道并返回，而且使用了协程的 lambda 函数。
+// TestSuShu2 函数现在短小清晰：它调用 sieve() 返回了包含素数的通道，然后通过 fmt.Println(<-primes) 打印出来。
+
+func TestSuShu2(t *testing.T) {
+	primes := sieve()
+	for {
+		fmt.Println(<-primes)
+	}
+}
+
+// Send the sequence 2, 3, 4, ... to returned channel
+func generate2() chan int {
+	ch := make(chan int)
+	go func() {
+		for i := 2; i < 100; i++ {
+			ch <- i
+		}
+	}()
+	return ch
+}
+
+// Filter out input values divisible by 'prime', send rest to returned channel
+func filter2(in chan int, prime int) chan int {
+	out := make(chan int)
+	go func() {
+		for {
+			if i := <-in; i%prime != 0 {
+				out <- i
+			}
+		}
+	}()
+	return out
+}
+
+func sieve() chan int {
+	out := make(chan int)
+	go func() {
+		ch := generate2()
+		for {
+			prime := <-ch
+			ch = filter2(ch, prime)
+			out <- prime
+		}
+	}()
+	return out
 }
