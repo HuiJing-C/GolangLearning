@@ -77,3 +77,34 @@ func TestSimpleTimeOut(t *testing.T) {
 		break
 	}
 }
+
+/*第二种形式：取消耗时很长的同步调用
+也可以使用 time.After() 函数替换 timeout-channel。可以在 select 中使用以发送信号超时或停止协程的执行。
+以下代码，在 timeoutNs 纳秒后执行 select 的 timeout 分支时，client.Call 不会给通道 ch 返回值：
+ch := make(chan error, 1)
+go func() { ch <- client.Call("Service.Method", args, &reply) } ()
+select {
+case resp := <-ch
+// use resp and reply
+case <-time.After(timeoutNs):
+// call timed out
+break
+}
+注意缓冲大小设置为 1 是必要的，可以避免协程死锁以及确保超时的通道可以被垃圾回收。*/
+
+/*第三种形式：假设程序从多个复制的数据库同时读取。只需要一个答案，需要接收首先到达的答案，Query 函数获取数据库的连接切片并请求。
+并行请求每一个数据库并返回收到的第一个响应：
+func Query(conns []conn, query string) Result {
+	ch := make(chan Result, 1)
+	for _, conn := range conns {
+		go func(c Conn) {
+			select {
+			case ch <- c.DoQuery(query):
+			default:
+			}
+		}(conn)
+	}
+	return <- ch
+}
+再次声明，结果通道 ch 必须是带缓冲的：以保证第一个发送进来的数据有地方可以存放，确保放入的首个数据总会成功，所以第一个到达的值会被获取而与执行的顺序无关。
+正在执行的协程可以总是可以使用 runtime.Goexit() 来停止。*/
