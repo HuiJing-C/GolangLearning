@@ -75,3 +75,6 @@ rsc.io/sampler v1.3.0 h1:7uVkIFmeBqHfdjD+gZwtXXI+RODJ2Wc4O7MPEh/QiW4=
 rsc.io/quote v1.5.2/go.mod h1:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=
 rsc.io/sampler v1.3.0/go.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=
 ```
+
+- 有go.mod后，如果想升级某一个依赖，可以直接使用go get 依赖地址@版本号/分支，来更新依赖，mod文件会自动更新，比如`go get github.com/aliyun/aliyun-log-go-sdk@v0.1.21 `或者 `go get github.com/aliyun/aliyun-log-go-sdk@master`
+
