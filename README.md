@@ -47,7 +47,7 @@ Answer：由于上一步全是以test结尾的.go文件，Go语言不导出packa
 **go.sum** 的每一行都是一个条目，大致是这样的格式：
 
 ```shell
-<module> <version>/go.mod <hash
+<module> <version>/go.mod <hash>
 ```
 
 或者
