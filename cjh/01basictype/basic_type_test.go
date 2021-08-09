@@ -47,20 +47,20 @@ func TestTwo(t *testing.T) {
 	fmt.Printf("%g %f %e\n", c, c, c) //3.1415926 3.141593 3.141593e+00
 
 	// %n.m输出n并保留m位小数，除了使用 g 之外，还可以使用 e 或者 f
-	fmt.Printf("%5.2e\n", c)
-	fmt.Printf("%5.2g\n", c)
-	fmt.Printf("%5.2f\n", c)
+	fmt.Printf("%5.2e\n", c) //3.14e+00
+	fmt.Printf("%5.2g\n", c) //  3.1
+	fmt.Printf("%5.2f\n", c) // 3.14
 	// %v格式化复数complex64/complex128
 	re := float32(1.2)
 	im := float32(3.3)
 	comp := complex(re, im)
 	comp2 := 5 + 3i
-	fmt.Printf("%v\n", comp)
-	fmt.Printf("%v\n", comp2)
+	fmt.Printf("%v\n", comp)  // (1.2+3.3i)
+	fmt.Printf("%v\n", comp2) // (5+3i)
 
-	// %0d输出定长的整数
-	i := int64(1234567890)
-	fmt.Printf("%0d", i)
+	// %nd输出定长的整数(n小于等于整数长度，正常输出。n大于整数长度，前面用空格填充)
+	i := int64(123)
+	fmt.Printf("%6d", i) //   123
 
 	/*
 	   %v 输出结构体 {10 30}

@@ -1,7 +1,6 @@
 package control_struct
 
 import (
-	"fmt"
 	"runtime"
 	"testing"
 )
@@ -47,5 +46,4 @@ func TestIfElseTwo(t *testing.T) {
 		// ...
 	}
 	// 声明的变量val，作用域在if结构中，如果val在if结构前就已经存在，该变量原来的值就会被隐藏
-	fmt.Printf("")
 }

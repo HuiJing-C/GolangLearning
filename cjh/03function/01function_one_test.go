@@ -13,7 +13,7 @@ import (
 func TestOne(t *testing.T) {
 	// 函数被调用时，实参被复制（简单而言）,然后传递给被调用函数
 	user := User{name: "AAA"}
-	changeName(user)
+	changeName(user)   // BBB
 	println(user.name) // AAA
 
 	str := "AAA"

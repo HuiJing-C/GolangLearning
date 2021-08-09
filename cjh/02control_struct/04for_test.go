@@ -26,7 +26,7 @@ func TestForOne(t *testing.T) {
 
 	println()
 	// 打印倒三角
-	for i, j := 10, 0; i > 0; i, j = i-2, j+1 {
+	for i, j := 11, 0; i > 0; i, j = i-2, j+1 {
 		fmt.Printf("%s%s%s\n", strings.Repeat(" ", j), strings.Repeat("*", i), strings.Repeat(" ", j))
 	}
 }
@@ -58,7 +58,7 @@ func TestForRang(t *testing.T) {
 	fmt.Printf("%v\n", strs) // [A b]
 	for _, value := range strs {
 		value = value + ":"
-		fmt.Printf("%s\n", value) // A: B:
+		fmt.Printf("%s\n", value) // A: b:
 	}
 	fmt.Printf("%v\n", strs) // [A b]
 
