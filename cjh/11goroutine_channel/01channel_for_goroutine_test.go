@@ -130,7 +130,7 @@ func TestBlockChannel2(t *testing.T) {
 // 无缓冲通道会被阻塞。设计无阻塞的程序可以避免这种情况，或者使用带缓冲的通道。
 func TestBlockChannel3(t *testing.T) {
 	ch := make(chan int)
-	ch <- 1   // 先生产，生产阻塞，没有生产。再消费，因为没有生产出来，所以消费也阻塞
+	ch <- 1   // 先生产，消费没准备好，生产阻塞，没有生产。再消费，因为没有生产出来，所以消费也阻塞
 	go f1(ch) // 和上一行换一下就可以运行了
 }
 
@@ -201,7 +201,7 @@ func TestParallel(t *testing.T) {
 		}(i)
 	}
 	/*注意闭合：i 是作为参数传入闭合函数的，从外层循环中隐藏了变量 i 。让每个协程有一份 i 的拷贝；如果不是作为参数传入闭合函数，会出现各种奇怪的问题
-	另外，for 循环的下一次迭代会更新所有协程中 i 的值。切片 res 没有传入闭合函数，因为协程不需要单独拷贝一份。
+	另外，for 循环的下一次迭代会更新所有协程中 i 的值。切片 a 没有传入闭合函数，因为协程不需要单独拷贝一份。
 	切片 b 也在闭合函数中但并不是参数。*/
 	for i := 0; i < 10; i++ {
 		<-ch
@@ -308,6 +308,7 @@ func TestDirect(t *testing.T) {
 	var c = make(chan int) // bidirectional
 	go source(c)
 	go sink(c)
+	time.Sleep(1e8)
 }
 
 func source(ch chan<- int) {
@@ -318,7 +319,7 @@ func source(ch chan<- int) {
 
 func sink(ch <-chan int) {
 	for {
-		<-ch
+		println(<-ch)
 	}
 }
 
