@@ -13,9 +13,13 @@ type ParseError struct {
 	Err   error  // The raw 10error that precipitated this 10error, if any.
 }
 
-// String returns a human-readable 10error message.
+// String returns a human-readable error message.
 func (e *ParseError) String() string {
-	return fmt.Sprintf("pkg parse: 10error parsing %q as int", e.Word)
+	return fmt.Sprintf("pkg parse: error parsing %q as int", e.Word)
+}
+
+func (e *ParseError) Error() string {
+	return e.Word + fmt.Sprintf(" :%v", e.Err)
 }
 
 // Parse parses the space-separated words in in put as integers.
@@ -24,6 +28,7 @@ func Parse(input string) (numbers []int, err error) {
 		if r := recover(); r != nil {
 			var ok bool
 			err, ok = r.(error)
+			println(ok)
 			if !ok {
 				err = fmt.Errorf("pkg: %v", r)
 			}

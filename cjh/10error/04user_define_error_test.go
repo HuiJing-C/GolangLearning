@@ -25,9 +25,43 @@ func TestUDOne(t *testing.T) {
 		fmt.Printf("Parsing %q:\n  ", ex)
 		nums, err := parse.Parse(ex)
 		if err != nil {
-			fmt.Println(err) // here String() method from ParseError is used
+			fmt.Println(err) // 自定义错误类型，有String()没Error()此处打印String(), 有Error()此处打印Error()
 			continue
 		}
 		fmt.Println(nums)
 	}
 }
+
+func TestUDTwo(t *testing.T) {
+	var e interface{}
+	e = &UDError{s: "666"}
+	// String()&Error()
+	// println(e) // (0x1180f58,0x12656f8)
+	// fmt.Println(e) // Error()
+
+	// String()
+	// println(e) // (0x112df80,0x12656f8)
+	// fmt.Println(e) // String()
+
+	// Error()
+	// println(e) // (0x112df80,0x12656f8)
+	// fmt.Println(e) // Error()
+
+	//
+	println(e)     // (0x1122c40,0xc00004c5c0)
+	fmt.Println(e) // &{666}
+
+	// 自定义error使用fmt.Println()打印时 有Error()打印Error(),没Error()打印String()。什么都没有，打印结构体
+}
+
+type UDError struct {
+	s string
+}
+
+// func (u *UDError) String() string {
+// 	return "String()"
+// }
+
+// func (u *UDError) Error() string {
+// 	return "Error()"
+// }
