@@ -10,7 +10,7 @@ package _8interface_reflect
 // var dataSlice []myType = FuncReturnSlice()
 // var interfaceSlice []interface{} = dataSlice
 // 可惜不能这么做，编译时会出错：cannot use dataSlice (type []myType) as type []interface { } in assignment。
-// 原因是它们俩在内存中的布局是不一样的（参考 Go wiki）。
+// 原因是它们俩在内存中的布局是不一样的（参考 Go wiki http://golang.org/doc/go_spec.html）。
 // 必须使用 for-range 语句来一个一个显式地赋值：
 // var dataSlice []myType = FuncReturnSlice()
 // var interfaceSlice []interface{} = make([]interface{}, len(dataSlice))
