@@ -2,11 +2,17 @@ package sort
 
 import (
 	"fmt"
+	"math/rand"
 	"testing"
+	"time"
 )
 
 func TestInsertion(t *testing.T) {
-	s := []int{9, 7, 8, 4, 6, 5, 0, 2, 1, 3}
+	rand.Seed(time.Now().UnixNano())
+	var s []int
+	for i := 0; i < 10; i++ {
+		s = append(s, rand.Intn(100))
+	}
 	fmt.Printf("开始%v\n", s)
 	for i := 1; i < len(s); i++ {
 		current := s[i]
@@ -27,7 +33,5 @@ func moveAfterIndex(s []int, index int) {
 	if l < 2 || index > l-1 {
 		return
 	}
-	for i := l; i > index && i > 1; i-- {
-		s[i-1] = s[i-2]
-	}
+	s = append(s[:index+1], s[index:len(s)-1]...)
 }
