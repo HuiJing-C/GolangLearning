@@ -33,5 +33,8 @@ func moveAfterIndex(s []int, index int) {
 	if l < 2 || index > l-1 {
 		return
 	}
+	// for i := l; i > index && i > 1; i-- {
+	// 	s[i-1] = s[i-2]
+	// }
 	s = append(s[:index+1], s[index:len(s)-1]...)
 }
