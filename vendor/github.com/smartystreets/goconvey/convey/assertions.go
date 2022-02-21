@@ -69,5 +69,5 @@ var (
 	ShouldBeChronological      = assertions.ShouldBeChronological
 
 	ShouldBeError = assertions.ShouldBeError
-	ShouldWrap    = assertions.ShouldWrap
+	ShouldWrap = assertions.ShouldWrap
 )
