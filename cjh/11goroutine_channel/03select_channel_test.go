@@ -2,6 +2,8 @@ package goroutine_channel
 
 import (
 	"fmt"
+	"runtime"
+	"sync"
 	"testing"
 	"time"
 )
@@ -65,4 +67,145 @@ func suck2(ch1, ch2 chan int) {
 			return
 		}
 	}
+}
+
+func TestOOne(t *testing.T) {
+	runtime.GOMAXPROCS(1)
+	int_chan := make(chan int, 1)
+	string_chan := make(chan string, 1)
+	int_chan <- 1
+	string_chan <- "hello"
+	select {
+	case value := <-int_chan:
+		fmt.Println(value)
+	case value := <-string_chan:
+		panic(value)
+	}
+}
+
+func TestTWOO(t *testing.T) {
+	a := 1
+	b := 2
+	defer calc("1", a, calc("10", a, b))
+	a = 0
+	defer calc("2", a, calc("20", a, b))
+	b = 1
+
+	s := make([]int, 5)
+	s = append(s, 1, 2, 3)
+	fmt.Println(s)
+
+	userAges := &UserAges{
+		ages:  make(map[string]int),
+		Mutex: sync.Mutex{},
+	}
+	for i := 0; i < 1000; i++ {
+		go func(a int) {
+			userAges.Add(fmt.Sprintf("%d", a), a)
+			println(userAges.Get(fmt.Sprintf("%d", a)))
+		}(i)
+	}
+	time.Sleep(1e9)
+	println(len(userAges.ages))
+}
+
+func calc(index string, a, b int) int {
+	ret := a + b
+	fmt.Println(index, a, b, ret)
+	return ret
+}
+
+type UserAges struct {
+	ages map[string]int
+	sync.Mutex
+}
+
+func (ua *UserAges) Add(name string, age int) {
+	ua.Lock()
+	defer ua.Unlock()
+	ua.ages[name] = age
+}
+
+func (ua *UserAges) Get(name string) int {
+	ua.Lock()
+	defer ua.Unlock()
+	if age, ok := ua.ages[name]; ok {
+		return age
+	}
+	return -1
+}
+
+type People interface {
+	Speak(string) string
+}
+
+type Stduent struct{}
+
+func (stu *Stduent) Speak(think string) (talk string) {
+	if think == "bitch" {
+		talk = "You are a good boy"
+	} else {
+		talk = "hi"
+	}
+	return
+}
+
+func TestThreee(t *testing.T) {
+	var peo People = &Stduent{} // 父类接口引用要指向子类引用，不能指向子类对象
+	think := "bitch"
+	fmt.Println(peo.Speak(think))
+	if get() == nil {
+		println("a")
+	} else {
+		println("b")
+	}
+}
+
+func get() People {
+	var peo *Stduent
+	return peo
+}
+
+func TestFour(t *testing.T) {
+	ch := make(chan bool)
+	go func() {
+		time.Sleep(3e9)
+		ch <- true
+	}()
+	println(<-ch)
+}
+
+func TestFive(t *testing.T) {
+	defer func() {
+		fmt.Println("Try to recover the panic")
+		if p := recover(); p != nil {
+			fmt.Println("recover the panic : ", p)
+		}
+	}()
+	var mu sync.Mutex
+	mu.Unlock()
+}
+
+func TestSix(t *testing.T) {
+	var a []int = nil
+	a = append(a, 1)
+	fmt.Printf("%v\n", a)
+
+	var b map[string]int = nil
+	b["one"] = 1
+}
+
+func TestSeven(t *testing.T) {
+	var c chan int = nil
+	wg := sync.WaitGroup{}
+	wg.Add(2)
+	go func() {
+		c <- 1
+		wg.Done()
+	}()
+	go func() {
+		<-c
+		wg.Done()
+	}()
+	wg.Wait()
 }
